@@ -1,5 +1,5 @@
 c=get(gca,'Children'); %The second handle is that for the first plotted data
-adjFactor = 0.5;
+adjFactor = 0.4;
 
 for jitterant = 1:length(c)
 
