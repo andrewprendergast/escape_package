@@ -1,0 +1,42 @@
+[m,n]=size([block(1).posBends]);
+fAmp = figure();
+set(fAmp, 'Position', [1 1 1200 1200]);
+
+for i=1:nGrps
+    for j=1:m
+    freqangle(:,i)=reshape([block(i).posBends(j,:)],[m*n 1]);
+    freqangle(:,i+nGrps)=reshape([block(i).[block(i).hemi(j,1:2:end)]],[m*n 1]);
+    freqangle(:,i+2*nGrps)=reshape([block(i).negBends(j,:)],[m*n 1]);
+    freqangle(:,i+3*nGrps)=reshape([block(i).[block(i).hemi(j,2:2:end)]],[m*n 1]);
+    end
+end
+
+subplot(2,nGrps,1)
+scatter(freqangle(:,1),'r')
+hold on
+jitter
+
+for i=1:m
+scatter([block(2).hemi(i,1:2:end)],[block(2).posBends(i,:)],'b')
+hold on
+end
+jitter
+
+subplot(2,1,2)
+for i=1:m
+scatter([block(1).hemi(i,2:2:end)],[block(1).negBends(i,:)],'r')
+hold on
+end
+jitter
+for i=1:m
+scatter([block(2).hemi(i,2:2:end)],[block(2).negBends(i,:)],'b')
+hold on
+end
+jitter
+
+h = gcf;
+axesObjs = get(h, 'Children');
+dataObjs = get(axesObjs, 'Children');
+xdata = get(dataObjs, 'XData');
+ydata = get(dataObjs, 'YData');
+

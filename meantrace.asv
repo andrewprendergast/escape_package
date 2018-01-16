@@ -1,0 +1,9 @@
+for i=1:nGrps   
+    for j=1:n
+    indMeansHemi=nanmean(block(i).hemi);
+    xscale=cumsum(indMeansHemi);
+    yscale[:,:]=block()
+    
+    end
+end
+  

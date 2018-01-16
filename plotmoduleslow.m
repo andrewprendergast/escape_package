@@ -1,13 +1,17 @@
 
 %% establish plotting set
+sswim=sswimdata([sswimdata.error]==0 & [sswimdata.cat]==2 ); %
+maskEmptyId = arrayfun(  @(sswim)isempty(sswim.IBI),  sswim  );
+[sswim(maskEmptyId).IBI] = deal(nan);
 
-incAnalyses = {'latency',...
+incAnalyses = {
     'duration',...
     'distance',...
     'speed',...
     'nBends',...
-    'tbf'...
-    'cAmp'...
+    'TBF',...
+    'hDirect',...
+    'IBI'...
     };
 
 nAnalyses = length(incAnalyses);
@@ -20,10 +24,11 @@ doAverage = 1;
 
 if doAverage == 0; % no averaging
 
+  
     % plot all escape latencies as per second histogram
 
 %     latHist = figure();
-%     hist([escapes.latency], cutoff-2)
+%     hist([sswim.latency], cutoff-2)
 
     % scatter all points by experiment for each parameter
 
@@ -33,21 +38,21 @@ if doAverage == 0; % no averaging
     for i = 1:nAnalyses
 
         s(i) = subplot(1,nAnalyses,i);
-%         gscatter([escapes.genotype], [escapes.(incAnalyses{i})], expNum)
-        scatter([escapes.genotype], [escapes.(incAnalyses{i})], 50, '.')
+%         gscatter([sswim.geno], [sswim.(incAnalyses{i})], expNum)
+        scatter([sswim.geno], [sswim.(incAnalyses{i})], 30, '.')
         title(incAnalyses{i})
         hold on
         
-        [indMeans{i}, indErr{i}] = grpstats([escapes.(incAnalyses{i})], [escapes.genotype], {'mean', 'sem'});
-        groups = unique([escapes.genotype]);
+        [indMeans{i}, indErr{i}] = grpstats([sswim.(incAnalyses{i})], [sswim.geno], {'mean', 'sem'});
+        groups = unique([sswim.geno]);
         groups = groups(~isnan(groups));
 
-        bins = unique([escapes.genotype]);
+        bins = unique([sswim.geno]);
 
         xlim([min(bins)-1, max(bins)+1])
         
         ax = gca;
-        set(ax, 'XTickLabel', {'', '', '', ''});
+        set(ax, 'XTickLabel', {'', 'CTL', 'BoTx', '', ''});
         
         jitter
         
@@ -61,7 +66,7 @@ if doAverage == 0; % no averaging
 
         % anova
 
-        [p(i), table{i}, stats{i}] = anovan([escapes.(incAnalyses{i})], {[escapes.genotype]}, 'model', 'interaction', 'varnames', {'Genotype'}, 'display', 'off');
+        [p(i), table{i}, stats{i}] = anovan([sswim.(incAnalyses{i})], {[sswim.geno]}, 'model', 'interaction', 'varnames', {'Genotype'}, 'display', 'off');
 
         % post hoc tests for anything less than 0.10
 
@@ -74,15 +79,16 @@ if doAverage == 0; % no averaging
 
     end
 
+
 elseif doAverage == 1; % averaging within larvae
     
     % average within larvae
     
     for i = 1:nAnalyses
 
-        perLarva{i,1} = grpstats([escapes.(incAnalyses{i})], [escapes.larvaNew], {'mean'});
-        perLarva{i,2} = grpstats([escapes.genotype], [escapes.larvaNew]);
-        perLarva{i,3} = grpstats([escapes.expNum], [escapes.larvaNew]);
+        perLarva{i,1} = grpstats([sswim.(incAnalyses{i})], [sswim.fishID], {'mean'});
+        perLarva{i,2} = grpstats([sswim.geno], [sswim.fishID]);
+        perLarva{i,3} = grpstats([sswim.expNum], [sswim.fishID]);
 
     end
     
@@ -101,15 +107,15 @@ elseif doAverage == 1; % averaging within larvae
                 
         [grpMeans{i}, grpErr{i}] = grpstats(perLarva{i,1}, perLarva{i,2}, {'mean', 'sem'});
                 
-        groups = unique([escapes.genotype]);
+        groups = unique([sswim.geno]);
         groups = groups(~isnan(groups));
 
-        bins = unique([escapes.genotype]);
+        bins = unique([sswim.geno]);
 
         xlim([min(bins)-1, max(bins)+1])
         
         ax = gca;
-        set(ax, 'XTickLabel', {'', '', '', ''});
+        set(ax, 'XTickLabel', {'', 'CTL', 'BoTx', '', ''});
 
         jitter
         
@@ -135,7 +141,6 @@ elseif doAverage == 1; % averaging within larvae
         end
 
     end
-    
 else
     
 end

@@ -3,8 +3,10 @@ attemptCount = zeros(nExp, nGrps);
 
 endBlock = unique(modMat);
 startBlock = endBlock+1;
-endBlock(1) = [];
-endBlock(end+1) = length(genotypes);
+for i=1:length(nLarvaeQuery)
+endBlock(i+1) = sum(nLarvaeQuery(1:i));
+end
+endBlock=endBlock(2:end);
 
 incVect = ~isnan([escapes.latency]'); % inclusion criteria definitions
 
@@ -13,9 +15,7 @@ for i = 1:nExp
     % this block gives the number of possible tracked trials per genotype per experiment
     
     for j = min(unique([escapes.genotype])):max(unique([escapes.genotype])) 
-        blockIdx = startBlock(i):endBlock(i);
-        tempGen = genotypes(blockIdx,2);
-        attemptCount(i,j+1) = sum(tempGen==j)*5;
+        attemptCount(i,j+1) = nLarvaeQuery(i)*5/2;
         clear tempGen
     end
         
@@ -48,3 +48,15 @@ trackMeans = nanmean(trackRatio,1)
 
 incRatio = incCount./genCount
 incMeans = nanmean(incRatio,1)
+
+% this block finds the number of larvae
+
+tempArray = [incVect, [escapes.larvaNew]' [escapes.genotype]'];
+idx = find(tempArray(:,1)==1);
+incArray = tempArray(idx,:);
+
+for j = min(unique([escapes.genotype])):max(unique([escapes.genotype]))
+    incLarvae(j+1) = length(find(grpstats(incArray(:,3), incArray(:,2))==j));
+end
+
+incLarvae

@@ -1,20 +1,19 @@
 
 %% establish plotting set
 
-incAnalyses = {'latency',...
+incAnalyses = {
     'duration',...
     'distance',...
     'speed',...
     'nBends',...
     'tbf'...
-    'cAmp'...
     };
 
 nAnalyses = length(incAnalyses);
 
 % change this to change whether we average within larvae or not
 
-doAverage = 1;
+doAverage = 0;
 
 % begin plotting
 
@@ -34,7 +33,7 @@ if doAverage == 0; % no averaging
 
         s(i) = subplot(1,nAnalyses,i);
 %         gscatter([escapes.genotype], [escapes.(incAnalyses{i})], expNum)
-        scatter([escapes.genotype], [escapes.(incAnalyses{i})], 50, '.')
+        scatter([escapes.genotype], [escapes.(incAnalyses{i})], 30, '.')
         title(incAnalyses{i})
         hold on
         
@@ -47,7 +46,7 @@ if doAverage == 0; % no averaging
         xlim([min(bins)-1, max(bins)+1])
         
         ax = gca;
-        set(ax, 'XTickLabel', {'', '', '', ''});
+        set(ax, 'XTickLabel', {'', 'CTL', 'BoTx', '', ''});
         
         jitter
         
@@ -109,7 +108,7 @@ elseif doAverage == 1; % averaging within larvae
         xlim([min(bins)-1, max(bins)+1])
         
         ax = gca;
-        set(ax, 'XTickLabel', {'', '', '', ''});
+        set(ax, 'XTickLabel', {'', 'CTL', 'BoTx', '', ''});
 
         jitter
         

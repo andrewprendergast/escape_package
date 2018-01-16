@@ -26,8 +26,8 @@ lMin(lMin(:,1)<trigger,:)=[];
 
 % delete any early low-magnitude points (within 30 frames of onset)
 
-lMax(lMax(:,1)<onset+30 & lMax(:,2)<20,:)=[];
-lMin(lMin(:,1)<onset+30 & lMin(:,2)>-20,:)=[];
+lMax(lMax(:,1)<onset+30 & lMax(:,2)<10,:)=[];
+lMin(lMin(:,1)<onset+15 & lMin(:,2)>-10,:)=[];
 
 % interrogate sequentialness of peaks
 
@@ -67,6 +67,9 @@ end
 
 consPeaks(:,5) = peakLabel';
 consPeaks(:,6) = hemicycle';
+
+
+    
 
 % by the end, consPeaks order is: frame, angle, binary up/down, binary
 % consecutive, type label, hemicycle

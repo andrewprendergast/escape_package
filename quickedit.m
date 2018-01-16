@@ -17,26 +17,14 @@ for i = 1:nFiles
     load(file);
     
     % here's where changes can be made
-    
-    frameInt = 1.5385;
-    mmPx = 23/351;
-    
-    latency = latency*frameInt;
-    onset = onset*frameInt;
-    offset = offset*frameInt;
-    consPeaks(:,1) = consPeaks(:,1).*frameInt;
-    consPeaks(:,6) = consPeaks(:,6).*frameInt;
-    
-    fishPosition(:,:) = fishPosition(:,:).*mmPx;
-        
+date = '2016_01_20';
     % end change block
     
     % save
     
     save([newFolder fileName{i}],'date', 'rdtrack', 'larva', 'trial', 'trackingData', 'tailAngle', 'tailAngleFiltered',... 
             'tailAngleFitEval', 'fishPosition', 'headDirection', 'interpTailAngle', 'angVel', 'angVelFitEval',...
-            'onset', 'offset', 'latency', 'consPeaks', 'isEscape',...
-            'hemifit', 'hemiSlope', 'hemiInt')
+            'onset', 'offset', 'latency', 'consPeaks', 'isEscape');
         
     clear latency
     clear onset

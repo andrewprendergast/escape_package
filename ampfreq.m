@@ -1,5 +1,5 @@
 nGrps = length(groups);
-nPeaks = 5; % change this to change trim level
+nPeaks = 7; % change this to change trim level
 
 % establish bounds for struct so that everything fits prior to trimming
 
@@ -20,6 +20,8 @@ for i = 1:nGrps
     block(i).name = nan(nFiles,1);
     block(i).posBends = nan(nFiles, maxLength);
     block(i).negBends = nan(nFiles, maxLength);
+    block(i).posBendsframe = nan(nFiles, maxLength);
+    block(i).negBendsframe = nan(nFiles, maxLength);
     block(i).hemi = nan(nFiles, maxLength);
 end
 
@@ -38,6 +40,7 @@ for i = 1:nGrps
             [m, n] = size(escapes(j).consPeaks(or(escapes(j).consPeaks(:,5)==1,escapes(j).consPeaks(:,5)==3),2));
             
             block(i).posBends(j,1:m) = escapes(j).consPeaks(or(escapes(j).consPeaks(:,5)==1,escapes(j).consPeaks(:,5)==3),2);
+            block(i).posBendsframe(j,1:m) = escapes(j).consPeaks(or(escapes(j).consPeaks(:,5)==1,escapes(j).consPeaks(:,5)==3),1);
             
             clear m
             clear n
@@ -45,7 +48,8 @@ for i = 1:nGrps
             [m, n] = size(escapes(j).consPeaks(or(escapes(j).consPeaks(:,5)==2,escapes(j).consPeaks(:,5)==4),2));
             
             block(i).negBends(j,1:m) = escapes(j).consPeaks(or(escapes(j).consPeaks(:,5)==2,escapes(j).consPeaks(:,5)==4),2);
-            
+            block(i).negBendsframe(j,1:m) = escapes(j).consPeaks(or(escapes(j).consPeaks(:,5)==2,escapes(j).consPeaks(:,5)==4),1);
+           
             clear m
             clear n
             
@@ -62,6 +66,8 @@ end
 for i = 1:nGrps
     block(i).posBends = block(i).posBends(:,1:nPeaks);
     block(i).negBends = block(i).negBends(:,1:nPeaks);
+    block(i).posBendsframe = block(i).posBendsframe(:,1:nPeaks);
+    block(i).negBendsframe = block(i).negBendsframe(:,1:nPeaks);
     block(i).hemi = block(i).hemi(:,1:(nPeaks*2));
 end
 
@@ -93,7 +99,7 @@ end
 % all amplitudes by genotype
 
 fAmp = figure();
-set(fAmp, 'Position', [1 1200 1200 1200]);
+set(fAmp, 'Position', [1 1 1200 1200]);
 
 padding = (nGrps+1);
 plotBlock = padding*nPeaks;
@@ -189,31 +195,31 @@ ylim([0 50])
 
 % full cycle duration by genotype
 
-% for i = 1:nGrps
-%     s(i) = subplot(2,nGrps,nGrps+i);
-%     for j = 1:nFiles
-%     scatter(1:nPeaks, [block(i).full(j,:)], 3, 'k.')
-%     hold on
-%     end
-%     jitter
-%     errorbar(block(i).indMeansFull, block(i).indErrsFull)
-% end
+ %for i = 1:nGrps
+ %    s(i) = subplot(2,nGrps,nGrps+i);
+ %    for j = 1:nFiles
+ %    scatter(1:nPeaks, [block(i).full(j,:)], 3, 'k.')
+ %    hold on
+ %    end
+ %    jitter
+ %    errorbar(block(i).indMeansFull, block(i).indErrsFull)
+ %end
 
 % % overlay group traces
 % 
-% fMeans = figure();
-% set(fMeans, 'Position', [1 1200 1200 1200]);
-% cmap = hsv(nGrps);
+ %fMeans = figure();
+ %set(fMeans, 'Position', [1 1200 1200 1200]);
+ %cmap = hsv(nGrps);
 % 
-% subplot(1,2,1)
-% for i = 1:nGrps
-%     errorbar(block(i).indMeansPos, block(i).indErrsPos, 'Color', cmap(i,:))
-%     hold on
-%     errorbar(block(i).indMeansNeg, block(i).indErrsNeg, 'Color', cmap(i,:))
-% end
+ %subplot(1,2,1)
+ %for i = 1:nGrps
+ %    errorbar(block(i).indMeansPos, block(i).indErrsPos, 'Color', cmap(i,:))
+ %    hold on
+ %    errorbar(block(i).indMeansNeg, block(i).indErrsNeg, 'Color', cmap(i,:))
+ %end
 % 
-% subplot(1,2,2)
-% for i = 1:nGrps
-%     errorbar(block(i).indMeansFull, block(i).indErrsFull, 'Color', cmap(i,:))
-%     hold on
-% end
+ %subplot(1,2,2)
+ %for i = 1:nGrps
+ %    errorbar(block(i).indMeansFull, block(i).indErrsFull, 'Color', cmap(i,:))
+ %    hold on
+ %    end

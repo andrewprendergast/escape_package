@@ -16,7 +16,7 @@ for i = 1:nAnalyses
 end
 
 fTrialsGeno = figure()
-set(fTrialsGeno, 'Position', [1 1200 1800 200]);
+set(fTrialsGeno, 'Position', [1 500 1800 200]);
 cmap = hsv(nGrps);
 
 for j = 1:nAnalyses

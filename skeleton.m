@@ -13,12 +13,14 @@ for i = inputVector'
     
 % head
 
-line([trackingData(i,4) trackingData(i,6)], [trackingData(i,5) trackingData(i,7)], 'Color', 'r')
-line([trackingData(i,6) trackingData(i,8)], [trackingData(i,7) trackingData(i,9)], 'Color', 'r')
-line([trackingData(i,8) trackingData(i,4)], [trackingData(i,9) trackingData(i,5)], 'Color', 'r')
+x = sin(trackingData(i,4)-(pi/2))*5;
+y = cos(trackingData(i,4)-(pi/2))*5;
+
+line([trackingData(i,24) trackingData(i,24)+x], [trackingData(i,25), trackingData(i,25)+y], 'Color', 'r', 'LineWidth', 3)
 
 % tail
 
+line([trackingData(i,6) trackingData(i,8)], [trackingData(i,7) trackingData(i,9)], 'Color', 'g')
 line([trackingData(i,8) trackingData(i,10)], [trackingData(i,9) trackingData(i,11)], 'Color', 'g')
 line([trackingData(i,10) trackingData(i,12)], [trackingData(i,11) trackingData(i,13)], 'Color', 'g')
 line([trackingData(i,12) trackingData(i,14)], [trackingData(i,13) trackingData(i,15)], 'Color', 'g')

@@ -2,8 +2,8 @@
 
 % pull out all x coords and y coords
 
-xcoord = [[1:650]' trackingData(:,10) trackingData(:,12) trackingData(:,14) trackingData(:,16) trackingData(:,18) trackingData(:,20) trackingData(:,22) trackingData(:,24)];
-ycoord = [[1:650]', trackingData(:,11) trackingData(:,13) trackingData(:,15) trackingData(:,17) trackingData(:,19) trackingData(:,21) trackingData(:,23) trackingData(:,25)];
+xcoord = [[1:650]' trackingData(:,6) trackingData(:,8) trackingData(:,10) trackingData(:,12) trackingData(:,14) trackingData(:,16) trackingData(:,18) trackingData(:,20)];
+ycoord = [[1:650]', trackingData(:,7) trackingData(:,9) trackingData(:,11) trackingData(:,13) trackingData(:,15) trackingData(:,17) trackingData(:,19) trackingData(:,21)];
 
 xcoord(any(isnan(xcoord),2),:) = nan;
 xcoord(any(isnan(xcoord),2),:) = [];

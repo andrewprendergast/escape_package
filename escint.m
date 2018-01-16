@@ -13,7 +13,7 @@ angVel(any(isnan(angVel),2),:) = [];
 angVelFit = fit([1:length(angVel)]', angVel, 'smoothingspline', 'SmoothingParam', 0.25);
 angVelFitEval = abs(angVelFit([1:nFrames]));
 
-velBinIndex = find(angVelFitEval>1);
+velBinIndex = find(angVelFitEval>0.5); % this is the angular velocity threshold
 velBin = zeros(1,nFrames);
 velBin(velBinIndex) = 1;
 velBin(1:trigger) = 0; % excludes pre-stimulus data

@@ -21,7 +21,7 @@ end
 
 for j = 1:nAnalyses
     fLarva(j) = figure();
-    set(fLarva(j), 'Position', [1 1200 1200 1200]);
+    set(fLarva(j), 'Position', [1 1 1200 1200]);
     errorbar(index,[larvalmeans{j,:}],[larvalerrors{j,:}], 'o')
 % 	gscatter([escapes.larvaNew], [escapes.(incAnalyses{j})], [escapes.larvaNew], hsv(nLarvae), '.', 10, 'doleg')
     xlim([0, nLarvae])
